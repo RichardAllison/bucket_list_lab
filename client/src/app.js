@@ -1,25 +1,41 @@
 const BucketListView = require('./views/bucket_list_view.js');
 const Request = require('./services/request.js');
+const BucketListItem = require('./models/bucket_list_item.js');
 
 const bucketListView = new BucketListView();
 const countriesRequest = new Request('https://restcountries.eu/rest/v2/all');
+const bucketListRequest = new Request('http://localhost:3000/api/bucket_list');
 
-// -------------------
+
 const appStart = function () {
   countriesRequest.get(populateCountriesList)
+  bucketListRequest.get(getBucketListRequestComplete);
 
   const addToListButton = document.getElementById('bucket-list-button');
   addToListButton.addEventListener('click', addToListButtonClicked);
 };
-// -------------------
+
+const getBucketListRequestComplete = function (bucketList) {
+  bucketList.forEach(function (listItem) {
+    bucketListView.addListItem(listItem);
+  });
+};
+
 const addToListButtonClicked = function (event) {
   event.preventDefault();
 
   const countryInputValue = document.getElementById('countries-select').value;
-  console.log(countryInputValue);
 
+  const countryToAdd = {
+    country: countryInputValue
+  };
+  bucketListRequest.post(addToListRequestComplete, countryToAdd);
 };
-// -------------------
+
+const addToListRequestComplete = function (listItem) {
+  bucketListView.addListItem(listItem);
+};
+
 const populateCountriesList = function (countries) {
   const select = document.getElementById('countries-select');
 
@@ -30,5 +46,5 @@ const populateCountriesList = function (countries) {
   });
 
 };
-// -------------------
+
 document.addEventListener('DOMContentLoaded', appStart);
