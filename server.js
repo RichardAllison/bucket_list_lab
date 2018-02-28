@@ -21,9 +21,9 @@ MongoClient.connect('mongodb://localhost:27017', function (err, client) {
 
 //CREATE
 server.post('/api/bucket_list', function (req, res) {
-  const countriesCollection = db.collection('list');
+  const bucketListCollection = db.collection('list');
   const bucketListItem = req.body;
-  countriesCollection.save(bucketListItem, function (err, result) {
+  bucketListCollection.save(bucketListItem, function (err, result) {
     if (err) {
       console.log(err);
       res.status(500);
@@ -35,8 +35,21 @@ server.post('/api/bucket_list', function (req, res) {
   });
 });
 
+//INDEX
+server.get('/api/bucket_list', function (req, res) {
+  const bucketListCollection = db.collection('list');
+  bucketListCollection.find().toArray(function (err, bucketList) {
+    if (err) {
+      console.log(err)
+      res.status(500);
+      res.send();
+    }
+    res.json(bucketList);
+  });
+});
+
   server.listen(3000, function () {
-    console.log('App running on port '+ this.address().port);
+    console.log('App running on port ' + this.address().port);
   });
 
 

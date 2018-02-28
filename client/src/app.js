@@ -8,8 +8,8 @@ const bucketListRequest = new Request('http://localhost:3000/api/bucket_list');
 
 
 const appStart = function () {
-  countriesRequest.get(populateCountriesList)
   bucketListRequest.get(getBucketListRequestComplete);
+  countriesRequest.get(populateCountriesList)
 
   const addToListButton = document.getElementById('bucket-list-button');
   addToListButton.addEventListener('click', addToListButtonClicked);
