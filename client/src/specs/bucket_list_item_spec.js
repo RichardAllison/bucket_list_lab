@@ -1,4 +1,4 @@
-const BucketListItem = require('../models/bucketListItem.js');
+const BucketListItem = require('../models/bucket_list_item.js');
 const assert = require('assert');
 
 describe('Bucket List Item', function () {
