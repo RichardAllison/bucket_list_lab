@@ -26,9 +26,8 @@ const populateCountriesList = function (countries) {
   countries.forEach(function(country, index){
     const option = document.createElement('option');
     option.innerText = country.name;
-    option.value = country.name;
     select.appendChild(option);
-  })
+  });
 
 };
 // -------------------
